@@ -5,3 +5,14 @@
 2
 <issue> cannot import files/classes in lib folder
 <solution> add an empty file __init__.py in lib folder
+
+3
+<issue> "Attempt to unlock mutex that was not locked" when launch camera node
+<solution> https://github.com/ros-perception/image_pipeline/issues/201
+
+4
+<issue> cannot compile google cartgraphy
+<solution> ceras library (an open-source nonlinear least squares solver) needs to be installed http://ceres-solver.org/installation.html
+or use 
+sudo apt-get install ros-<your ros version>-cartographer* 
+directly

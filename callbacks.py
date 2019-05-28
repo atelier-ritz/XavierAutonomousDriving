@@ -8,11 +8,7 @@ from lib.mcp4728 import MCP4728
 from lib.PS3Controller import DualShock
 from lib.vision import Webcam
 import time
-
-
-#ros
 import rospy
-from sensor_msgs.msg import Joy
 
 #=========================================================
 # a class that handles the signal and callbacks of the GUI
@@ -25,6 +21,7 @@ class GUI(QMainWindow,Ui_MainWindow):
 		QMainWindow.__init__(self,None,Qt.WindowStaysOnTopHint)
 		Ui_MainWindow.__init__(self)
 		self.setupUi(self)
+		self.setupROS()
 		self.setupTimer()
 		self.setupJoystick()
 		self.setupDac()
@@ -40,6 +37,9 @@ class GUI(QMainWindow,Ui_MainWindow):
 		self.quitCameras()
 		event.accept()
 
+	def setupROS(self):
+		rospy.init_node('ROS_listener')
+
 	def setupTimer(self):
 		''' run update() at 60 Hz '''
 		self.timer = QTimer()
@@ -48,7 +48,6 @@ class GUI(QMainWindow,Ui_MainWindow):
 		
 	def update(self):
 		self.updateJoystick()
-		return
 		
 	def quitTimer(self):
 		self.timer.stop()
@@ -76,19 +75,13 @@ class GUI(QMainWindow,Ui_MainWindow):
 		self.dac.clearAll()
 
 	def setupCameras(self):
-		self.webcam = Webcam(0)
-		self.webcam.streamStarted.connect(self.on_streamStarted)
+		self.webcam = Webcam(1)
 		self.webcam.changePixmap.connect(self.on_receive_frame)
-		self.webcam.finished.connect(self.on_webcam_terminated)
-		self.webcam2 = Webcam(1)
-		self.webcam2.streamStarted.connect(self.on_streamStarted2)
+		self.webcam2 = Webcam(2)
 		self.webcam2.changePixmap.connect(self.on_receive_frame2)
-		self.webcam2.finished.connect(self.on_webcam_terminated2)
-	
-	def quitCameras(self):
-		self.webcam.stop()
-		self.webcam2.stop()
 
+	def quitCameras(self):
+		return
 			
 	def connectSignals(self):
 		''' connect widgets with callback functions '''
@@ -109,18 +102,20 @@ class GUI(QMainWindow,Ui_MainWindow):
 	def on_btn_camera(self, isButtonToggled):
 		if isButtonToggled:
 			print('<INFO> Camera is open.')
-			self.btn_camera.setEnabled(False)
 			self.webcam.start()
 		else:
+			print('<INFO> Camera is terminated.')
 			self.webcam.stop()
-	
+			self.view_webcam.setText('Camera1')
+
 	def on_btn_camera2(self, isButtonToggled):
 		if isButtonToggled:
 			print('<INFO> Camera2 is open.')
-			self.btn_camera2.setEnabled(False)
 			self.webcam2.start()
 		else:
+			print('<INFO> Camera2 is terminated.')
 			self.webcam2.stop()
+			self.view_webcam2.setText('Camera2')
 	
 	def on_btn_joystick(self, isButtonToggled):
 		if isButtonToggled:
@@ -129,34 +124,17 @@ class GUI(QMainWindow,Ui_MainWindow):
 		else:
 			print('<INFO> Joystick debug ends.')
 			self.isJoystickEnabled = False
-			
-	#=====================================================
-	# PyQtslot Callback Functions
-	#===================================================== 
-	@pyqtSlot()
-	def on_streamStarted(self):
-		self.btn_camera.setEnabled(True)
-		
-	@pyqtSlot()
-	def on_streamStarted2(self):
-		self.btn_camera2.setEnabled(True)
 
+	#=====================================================
+	# PyQt signal Callback Functions
+	#=====================================================  
 	@pyqtSlot(QImage)
 	def on_receive_frame(self, image):
 		self.view_webcam.setPixmap(QPixmap.fromImage(image))
-		
+
 	@pyqtSlot(QImage)
 	def on_receive_frame2(self, image):
 		self.view_webcam2.setPixmap(QPixmap.fromImage(image))
 
-	@pyqtSlot()
-	def on_webcam_terminated(self):
-		print('<INFO> Webcam is terminated.')
-		self.view_webcam.setText('Camera1')
-
-	@pyqtSlot()
-	def on_webcam_terminated2(self):
-		print('<INFO> Webcam2 is terminated.')
-		self.view_webcam2.setText('Camera2')
-
+			
 		
