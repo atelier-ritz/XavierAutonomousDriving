@@ -1,0 +1,8 @@
+<launch>
+  <include file="$(find rplidar_ros)/launch/rplidar.launch" />
+  <include file="$(find main)/launch/cam1.launch" />
+  <include file="$(find main)/launch/cam2.launch" />
+  <node name="joy"   pkg="joy" type="joy_node" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find main)/rviz/default.rviz" />
+</launch>
+
