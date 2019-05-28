@@ -1,0 +1,7 @@
+1
+<issue> i2c permission denied for non-root users.
+<solution> add your user to i2c group. copy 30-i2c-tools to /etc/udev/rules.d if necessary. reboot
+
+2
+<issue> cannot import files/classes in lib folder
+<solution> add an empty file __init__.py in lib folder

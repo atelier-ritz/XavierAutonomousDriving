@@ -4,11 +4,15 @@ from PyQt5.QtCore import QTimer, Qt, pyqtSlot, QPoint
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget
 from PyQt5.QtGui import QPixmap, QPainter, QImage
 import smbus2 as smbus
-import pygame
 from lib.mcp4728 import MCP4728
 from lib.PS3Controller import DualShock
 from lib.vision import Webcam
 import time
+
+
+#ros
+import rospy
+from sensor_msgs.msg import Joy
 
 #=========================================================
 # a class that handles the signal and callbacks of the GUI
@@ -42,22 +46,25 @@ class GUI(QMainWindow,Ui_MainWindow):
 		self.timer.timeout.connect(self.update)
 		self.timer.start(15) # msec
 		
+	def update(self):
+		self.updateJoystick()
+		return
+		
 	def quitTimer(self):
 		self.timer.stop()
-		
+
 	def setupJoystick(self):
+		self.joystick = DualShock()
 		self.isJoystickEnabled = False
-		pygame.init()
-		pygame.joystick.init()
-		if pygame.joystick.get_count() < 1:
-			print('<ERROR> Joystick is not connected!')
-			return
-		else:
-			self.joystick = DualShock()
+	
+	def updateJoystick(self):
+		if self.isJoystickEnabled:
+			self.lbl_joystick_button.setText(self.joystick.getButtonPressed())
+			self.lbl_joystick_lstick.setText('{:2.2f}, {:2.2f}'.format(self.joystick.getAngleLeft(), self.joystick.getTiltLeft()))
+			self.lbl_joystick_rstick.setText('{:2.2f}, {:2.2f}'.format(self.joystick.getAngleRight(), self.joystick.getTiltRight()))
 			
 	def quitJoystick(self):
-		pygame.joystick.quit()
-		pygame.quit()
+		return
 	
 	def setupDac(self):
 		PORT_NUM_I2C = 8  # Port 8 I2C bus of Xavier is used. Check status using 'sudo i2cdetect -y -r 8'
@@ -81,21 +88,7 @@ class GUI(QMainWindow,Ui_MainWindow):
 	def quitCameras(self):
 		self.webcam.stop()
 		self.webcam2.stop()
-		
-	def update(self):
-		self.updateJoystick()
-	
-	def updateJoystick(self):
-		if self.isJoystickEnabled:
-			try:
-				self.joystick
-			except:
-				pass
-			else:
-				self.joystick.update()
-				self.lbl_joystick_button.setText(self.joystick.getButtonPressed())
-				self.lbl_joystick_lstick.setText('{:2.2f}, {:2.2f}'.format(self.joystick.getAngleLeft(), self.joystick.getTiltLeft()))
-				self.lbl_joystick_rstick.setText('{:2.2f}, {:2.2f}'.format(self.joystick.getAngleRight(), self.joystick.getTiltRight()))
+
 			
 	def connectSignals(self):
 		''' connect widgets with callback functions '''
@@ -108,8 +101,8 @@ class GUI(QMainWindow,Ui_MainWindow):
 		return
 
 	#=====================================================
-    # Callback Functions
-    #=====================================================  
+	# Callback Functions
+	#=====================================================  
 	def on_btn_set_A(self):
 		self.dac.setVoltage(0, self.spb_vol_A.value())
 	    
@@ -131,15 +124,15 @@ class GUI(QMainWindow,Ui_MainWindow):
 	
 	def on_btn_joystick(self, isButtonToggled):
 		if isButtonToggled:
-			print('<INFO> Joystick is connected.')
+			print('<INFO> Joystick debug starts.')
 			self.isJoystickEnabled = True
 		else:
-			print('<INFO> Joystick is disconnected.')
+			print('<INFO> Joystick debug ends.')
 			self.isJoystickEnabled = False
 			
 	#=====================================================
-    # PyQtslot Callback Functions
-    #===================================================== 
+	# PyQtslot Callback Functions
+	#===================================================== 
 	@pyqtSlot()
 	def on_streamStarted(self):
 		self.btn_camera.setEnabled(True)
