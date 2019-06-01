@@ -12,7 +12,7 @@ void robot_pose_publish(float *position){
   tf::Quaternion q;
   q.setRPY(0, 0, position[2]);
   transform.setRotation(q);
-  br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "base_link"));
+  br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "map", "base_link"));
 }
 
 float position[3]={0};//lx,ly,rz

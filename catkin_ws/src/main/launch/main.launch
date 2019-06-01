@@ -1,17 +1,11 @@
 <launch>
 
-  <arg name="joy" default="true" />
-
-  <include file="$(find rplidar_ros)/launch/rplidar.launch" />
+  <include file="$(find main)/launch/rplidar.launch" />
   <include file="$(find main)/launch/cam1.launch" />
   <include file="$(find main)/launch/cam2.launch" />
   <include file="$(find main)/launch/xacro.launch" />
-
-  <group if="$(arg joy)">
-    <node name="joy_node"   pkg="joy" type="joy_node" />
-    <node name="basic_twist_publisher" pkg="basic_lecture" type="basic_twist_publisher"/>
-    <node name="vis_robot_sim" pkg="vis_lecture" type="vis_robot_sim"/>
-  </group>
+<!--  <include file="$(find main)/launch/joy.launch" />-->
+  <include file="$(find main)/launch/cartographer.launch" />
 
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find main)/rviz/default.rviz" required="true"/>
 </launch>

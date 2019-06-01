@@ -4,11 +4,10 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /Global Options1
-        - /RPLidarLaserScan1
         - /TF1/Frames1
+        - /PointCloud21/Status1
       Splitter Ratio: 0.5
-    Tree Height: 386
+    Tree Height: 371
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -126,17 +125,17 @@ Visualization Manager:
           Value: true
         left_wheel_link:
           Value: false
+        map:
+          Value: true
         right_wheel_link:
           Value: false
-        world:
-          Value: true
       Marker Scale: 0.699999988079071
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        world:
+        map:
           base_link:
             ball_link:
               {}
@@ -184,26 +183,102 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        map:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         right_wheel_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        world:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
       Name: RobotModel
       Robot Description: robot_description
       TF Prefix: ""
       Update Interval: 0
       Value: true
       Visual Enabled: true
+    - Class: Submaps
+      Enabled: true
+      Fade-out distance: 1
+      High Resolution: true
+      Low Resolution: false
+      Name: Submaps
+      Submap query service: /submap_query
+      Submaps:
+        All: true
+        Trajectory 0:
+          0.114: true
+          1.24: true
+          Value: true
+      Topic: /submap_list
+      Tracking frame: base_link
+      Unreliable: false
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: PointCloud2
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.009999999776482582
+      Style: Flat Squares
+      Topic: /scan_matched_points2
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /trajectory_node_list
+      Name: Trajectories
+      Namespaces:
+        Trajectory 0: true
+      Queue Size: 100
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /constraint_list
+      Name: Constraints
+      Namespaces:
+        Inter constraints, different trajectories: true
+        Inter constraints, same trajectory: true
+        Inter residuals, different trajectories: true
+        Inter residuals, same trajectory: true
+        Intra constraints: true
+        Intra residuals: true
+      Queue Size: 100
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /landmark_poses_list
+      Name: Landmark Poses
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: world
+    Fixed Frame: map
     Frame Rate: 60
   Name: root
   Tools:
@@ -231,11 +306,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 195.47479248046875
+      Scale: 148.7922821044922
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: 0.25336185097694397
-      Y: 0.8269915580749512
+      X: 0.0006012555095367134
+      Y: -0.4838111400604248
     Saved:
       - Angle: 0
         Class: rviz/TopDownOrtho
@@ -255,12 +330,12 @@ Visualization Manager:
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 1056
+  Height: 1028
   Hide Left Dock: false
   Hide Right Dock: false
   Image:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd000000030000000000000195000003dcfc0200000009fb0000001200530065006c0065006300740069006f006e00000000270000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000002700000205000000c900fffffffb0000000a0049006d0061006700650100000232000000c70000001600fffffffb0000000a0049006d00610067006501000002ff000001040000001600fffffffb0000000a0049006d0061006700650100000308000000fb0000000000000000fb0000000a005600690065007700730000000327000000dc000000a400ffffff000000010000010b000003dcfc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a005600690065007700730000000027000003dc000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b2000000000000000000000003000004a00000003efc0100000002fb0000000800540069006d00650000000000000004a0000002eb00fffffffb0000000800540069006d00650100000000000004500000000000000000000005a4000003dc00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd000000030000000000000195000003c0fc0200000009fb0000001200530065006c0065006300740069006f006e00000000270000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c0061007900730100000027000001f6000000c900fffffffb0000000a0049006d0061006700650100000223000000c10000001600fffffffb0000000a0049006d00610067006501000002ea000000fd0000001600fffffffb0000000a0049006d0061006700650100000308000000fb0000000000000000fb0000000a005600690065007700730000000327000000dc000000a400ffffff000000010000010b000003dcfc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a005600690065007700730000000027000003dc000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b2000000000000000000000003000004a00000003efc0100000002fb0000000800540069006d00650000000000000004a0000002eb00fffffffb0000000800540069006d00650100000000000004500000000000000000000005a4000003c000000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:

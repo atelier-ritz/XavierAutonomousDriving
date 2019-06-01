@@ -24,10 +24,10 @@
   </xacro:macro> 
 
 
-  <link name="world"/>
+  <link name="map"/>
 
   <joint name="base_joint" type="floating">
-    <parent link="world"/>
+    <parent link="map"/>
     <child  link="base_link"/>
   </joint>
 
