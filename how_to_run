@@ -1,4 +1,0 @@
-roscure
-rosrun joy joy_node
-(or roslaunch main main.launch in my env)
-python main.py
