@@ -5,10 +5,10 @@
   <include file="$(find main)/launch/cam2.launch" />
   <include file="$(find main)/launch/xacro.launch" />
   <include file="$(find main)/launch/joy.launch" />
+  <node name="motor_driver" pkg="main" type="motor_driver.py" />
   <include file="$(find main)/launch/cartographer_online.launch" />
 <!--  <include file="$(find main)/launch/cartographer_pure_localization.launch" />-->
-
-  <node name="mcp4728" pkg="mcp4728" type="mcp4728.py" />
+<!--  <include file="$(find main)/launch/move_base.launch" />-->
 
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find main)/rviz/default.rviz" required="true"/>
 </launch>
