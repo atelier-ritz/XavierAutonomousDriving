@@ -16,3 +16,21 @@
 or use 
 sudo apt-get install ros-<your ros version>-cartographer* 
 directly
+
+5
+<issue> cannot disable IMU in cartographer 2D scan
+<solution> https://qiita.com/saitosasaki/items/255d6fcd129c5a3c6b0b
+need to recompile cartographer after change
+
+6
+IMU
+https://platypus-boats.readthedocs.io/en/latest/source/jetson/peripheral/imu.html
+Below is a simple program for testing and monitoring IMU data and pose
+https://github.com/RTIMULib/RTIMULib2
+
+Below is a simple ROS interface for RTIMULib2
+https://github.com/jeskesen/i2c_imu
+
+7
+odometry with cartographer
+http://answers.ros.org/question/311263/odometry-with-cartographer/
