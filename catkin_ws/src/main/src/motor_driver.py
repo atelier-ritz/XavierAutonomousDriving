@@ -41,21 +41,20 @@ class MotorController(object):
 		rospy.spin()
 	
 	def callback(self, data):
-		dac_input_seq = self.joyOutput2DacInput(data.linear.x, data.angular.x) 
+		dac_input_seq = self.joyOutput2DacInput(data.linear.x, data.angular.z) 
 		self.setVoltageSeq(dac_input_seq) #[0-4095, 0/4095, 0-4095, 0/4095]
 		
 	def joyOutput2DacInput(self, vel_cmd, ang_vel_cmd):
 		''' vel_cmd: [-1,1]. if vel_cmd = 1, the vehicle charges vel_cmd at full speed
 			ang_vel_cmd: [-1,1]. if ang_vel_cmd = 1, the vehicle rotates counterclockwise (topview) at full speed '''
-		r = 0.5 * self.WHEEL_DIAMETER
-		R = 0.5 * self.DISTANCE_BETWEEN_WHEELS
-		norm_vel_cmd = r * vel_cmd # normalized 
-#		norm_ang_vel_cmd = r / R * ang_vel_cmd # normalized 
-		norm_ang_vel_cmd = ang_vel_cmd # normalized 
+#		r = 0.5 * self.WHEEL_DIAMETER
+#		R = 0.5 * self.DISTANCE_BETWEEN_WHEELS
+#		wheel_left_ang_vel = 1 / r * (vel_cmd - ang_vel_cmd * R)
+#		wheel_right_ang_vel = 1 / r * (vel_cmd + ang_vel_cmd * R)
 
-		wheel_left_ang_vel = (2 * norm_vel_cmd - R * norm_ang_vel_cmd) / (2 * r)
-		wheel_right_ang_vel = (2 * norm_vel_cmd + R * norm_ang_vel_cmd) / (2 * r)
-
+		# just for debugging, no physical meaning
+		wheel_left_ang_vel = vel_cmd - ang_vel_cmd
+		wheel_right_ang_vel = vel_cmd + ang_vel_cmd
 		wheel_left_spd, wheel_left_dir = self.preprocessDacInput(wheel_left_ang_vel)
 		wheel_right_spd, wheel_right_dir = self.preprocessDacInput(wheel_right_ang_vel)
 
@@ -98,7 +97,7 @@ class MotorController(object):
 
 	def setVoltage(self, channel, voltage):
 		''' channel: 0-3, voltage: 0-4095 '''
-		bytes = formatDacInput(voltage)
+		bytes = self.formatDacInput(voltage)
 		self.bus.write_i2c_block_data(self.address, self.REG_WRITEDACEEPROM_A + channel * 2, bytes)
 
 
