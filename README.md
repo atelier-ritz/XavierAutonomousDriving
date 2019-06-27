@@ -45,7 +45,13 @@ https://github.com/ros-perception/image_pipeline/issues/201
 4 Install SMBUS2 for Python2
 ROS currently works with Python 2 only. To let non-root users to access i2c port of Xavier, you may need to add your user to i2c group. If necessary, copy troubleshoot/30-i2c-tools to /etc/udev/rules.d and reboot.
 
-5 Follow the instruction below to install Google Cartographer. Because cartographer uses ninja as a compilation tool, it is recommended to create an independent ROS workspace for Google Cartographer and source the directory in .bashrc.
+5 Install IMU packages
+A tool for debugging IMU
+[RTIMULib2](https://github.com/RTIMULib/RTIMULib2)
+A ROS interface for the debugging tool mentioned above
+https://github.com/jeskesen/i2c_imu
+
+6 Follow the instruction below to install Google Cartographer. Because cartographer uses ninja as a compilation tool, it is recommended to create an independent ROS workspace for Google Cartographer and source the directory in .bashrc.
 ```
 https://google-cartographer-ros.readthedocs.io/en/latest/
 ```
