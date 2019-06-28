@@ -9,7 +9,7 @@ ROS-based program to control a 1/3-scale motorized vehicle.
 * [camera1] Logitech C270
 * [camera2] ELP USB with Camera 2.1mm Lens 1080p Hd Free Driver USB Camera Module,2.0 Megapixel(1080p) Usb Camera,for Linux Windows Android Mac Os
 * [PWM board] MCP4728 Evaluation Board
-* [IMU] MPU6050
+* [IMU] PCA9685
 * [Joystick] SONY DUALSHOCK 3 + Mayflash Magic-NS (bluetooth receiver + converter)
 
 ## Features
